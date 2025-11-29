@@ -253,19 +253,31 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2 class="text-3xl font-bold mb-10 text-center" data-i18n="tools_title">Interactive Study Tools</h2>
             
-            <div class="grid md:grid-cols-2 gap-10">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
                 <!-- Speaking Generator -->
                 <div class="bg-stone-50 dark:bg-stone-800 p-8 rounded-xl shadow-sm border border-stone-100 dark:border-stone-700">
                     <h3 class="text-xl font-bold text-amber-600 mb-4 flex items-center gap-2">
                         <span>🗣️</span> <span data-i18n="tool_speak_title">Speaking Prompt Generator</span>
                     </h3>
                     <div class="flex gap-4 mb-6">
-                        <button onclick="genPrompt('A')" class="flex-1 py-2 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 rounded font-semibold transition">Task A (Inquiry)</button>
-                        <button onclick="genPrompt('B')" class="flex-1 py-2 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 rounded font-semibold transition">Task B (Persuade)</button>
+                        <button onclick="genPrompt('A')" class="flex-1 py-2 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 rounded font-semibold transition">Task A</button>
+                        <button onclick="genPrompt('B')" class="flex-1 py-2 bg-stone-200 dark:bg-stone-700 hover:bg-stone-300 rounded font-semibold transition">Task B</button>
                     </div>
                     <div id="prompt-display" class="p-4 bg-white dark:bg-stone-900 rounded-lg border border-stone-200 dark:border-stone-700 min-h-[100px] flex items-center justify-center text-center text-stone-600 dark:text-stone-400 italic">
-                        Select a task type above...
+                        Select a task type...
                     </div>
+                </div>
+
+                <!-- Text to Speech -->
+                <div class="bg-stone-50 dark:bg-stone-800 p-8 rounded-xl shadow-sm border border-stone-100 dark:border-stone-700">
+                    <h3 class="text-xl font-bold text-amber-600 mb-4 flex items-center gap-2">
+                        <span>🎧</span> <span data-i18n="tool_tts_title">Quebec French Reader</span>
+                    </h3>
+                    <textarea id="tts-input" class="w-full p-3 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-900 text-stone-800 dark:text-stone-200 mb-4 h-24 text-sm" placeholder="Enter French text to hear it in a Quebec accent..."></textarea>
+                    <button onclick="speakText()" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded font-bold transition flex justify-center items-center gap-2">
+                        <span data-i18n="btn_speak">🔊 Read Aloud</span>
+                    </button>
+                    <p class="text-xs text-stone-400 mt-2 text-center" id="tts-status"></p>
                 </div>
 
                 <!-- CLB Calculator -->
@@ -274,14 +286,14 @@
                         <span>📊</span> <span data-i18n="tool_clb_title">CLB Calculator</span>
                     </h3>
                     <div class="grid grid-cols-2 gap-4 mb-4">
-                        <input type="number" id="calc-co" placeholder="CO Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-700">
-                        <input type="number" id="calc-ce" placeholder="CE Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-700">
-                        <input type="number" id="calc-eo" placeholder="EO Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-700">
-                        <input type="number" id="calc-ee" placeholder="EE Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-700">
+                        <input type="number" id="calc-co" placeholder="CO Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-900 text-stone-800 dark:text-stone-200">
+                        <input type="number" id="calc-ce" placeholder="CE Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-900 text-stone-800 dark:text-stone-200">
+                        <input type="number" id="calc-eo" placeholder="EO Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-900 text-stone-800 dark:text-stone-200">
+                        <input type="number" id="calc-ee" placeholder="EE Score" class="p-2 rounded border border-stone-300 dark:border-stone-600 dark:bg-stone-900 text-stone-800 dark:text-stone-200">
                     </div>
-                    <button onclick="calculateCLB()" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded font-bold transition">Calculate Level</button>
+                    <button onclick="calculateCLB()" class="w-full py-2 bg-amber-600 hover:bg-amber-700 text-white rounded font-bold transition">Calculate</button>
                     <div id="clb-result" class="mt-4 text-center font-bold text-lg hidden">
-                        Result: <span id="clb-text"></span>
+                        <span id="clb-text"></span>
                     </div>
                 </div>
             </div>
@@ -366,11 +378,11 @@
                 lbl_current_day: "Current Day", btn_next: "Next →", lbl_progress: "Total Progress",
                 btn_mark_done: "Mark Complete", btn_completed: "Completed",
                 cal_title: "Generated Calendar", tools_title: "Interactive Study Tools",
-                tool_speak_title: "Speaking Prompt Generator", tool_clb_title: "CLB Calculator",
+                tool_speak_title: "Speaking Prompt Generator", tool_clb_title: "CLB Calculator", tool_tts_title: "Quebec French Reader",
                 res_title: "Free Study Resources",
                 slot_morning: "Morning", slot_noon: "Noon", slot_pm: "Afternoon", slot_eve: "Evening",
                 cat_structure: "Structure", cat_immersion: "Vocabulary", cat_input: "Input", cat_output: "Production",
-                btn_full_cal: "View Full 365-Day List", start_timer: "⏱️ Start 30m"
+                btn_full_cal: "View Full 365-Day List", start_timer: "⏱️ Start 30m", btn_speak: "🔊 Read Aloud"
             },
             fr: {
                 nav_goals: "Objectifs", nav_daily: "Journalier", nav_tools: "Outils", nav_resources: "Ressources",
@@ -382,11 +394,11 @@
                 lbl_current_day: "Jour Actuel", btn_next: "Suivant →", lbl_progress: "Progression Totale",
                 btn_mark_done: "Marquer Terminé", btn_completed: "Terminé",
                 cal_title: "Calendrier Généré", tools_title: "Outils Interactifs",
-                tool_speak_title: "Générateur de Sujets Oraux", tool_clb_title: "Calculatrice CLB",
+                tool_speak_title: "Générateur de Sujets Oraux", tool_clb_title: "Calculatrice CLB", tool_tts_title: "Lecteur Québecois",
                 res_title: "Ressources Gratuites",
                 slot_morning: "Matin", slot_noon: "Midi", slot_pm: "Après-Midi", slot_eve: "Soir",
                 cat_structure: "Structure", cat_immersion: "Vocabulaire", cat_input: "Input Actif", cat_output: "Production",
-                btn_full_cal: "Voir calendrier complet", start_timer: "⏱️ Démarrer 30m"
+                btn_full_cal: "Voir calendrier complet", start_timer: "⏱️ Démarrer 30m", btn_speak: "🔊 Lire"
             }
         };
 
@@ -494,6 +506,27 @@
             display.innerText = random;
             display.classList.remove('italic', 'text-stone-400');
             display.classList.add('font-bold', 'text-stone-800', 'dark:text-stone-200');
+        }
+
+        function speakText() {
+            const text = document.getElementById('tts-input').value;
+            if (!text) return;
+
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = window.speechSynthesis.getVoices();
+            
+            // Prioritize Canadian French (fr-CA), fallback to generic French
+            const voice = voices.find(v => v.lang === 'fr-CA') || voices.find(v => v.lang.includes('fr'));
+            
+            if (voice) {
+                utterance.voice = voice;
+                document.getElementById('tts-status').innerText = `Playing with voice: ${voice.name}`;
+            } else {
+                document.getElementById('tts-status').innerText = "Quebec/French voice not found. Using default.";
+            }
+
+            window.speechSynthesis.speak(utterance);
         }
 
         function calculateCLB() {
