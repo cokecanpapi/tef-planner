@@ -32,13 +32,24 @@
 
         .resource-link { transition: all 0.2s; }
         .resource-link:hover { padding-left: 4px; color: #d97706; }
+
+        .study-btn {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #d97706;
+            margin-top: 0.5rem;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .study-btn:hover { color: #b45309; }
     </style>
     <!-- Chosen Palette: Warm Neutrals (Stone, Amber, Orange, Slate) -->
     <!-- Application Structure Plan: 
          1. Bilingual UI: English default.
-         2. LocalStorage: Persists user progress (private to browser).
-         3. Expanded Resources: Categorized list of free tools.
-         4. Data Management: Export/Import functionality added to footer.
+         2. LocalStorage: Persists user progress.
+         3. Dynamic Day Content: Now includes SPECIFIC URLS for grammar and vocab.
          CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
 </head>
 <body class="bg-stone-50 text-stone-800 antialiased selection:bg-amber-200 selection:text-amber-900">
@@ -183,43 +194,55 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-stone-100">
                     
                     <!-- Slot 1: Grammar -->
-                    <div class="p-6 hover:bg-stone-50 transition">
-                        <div class="flex items-center mb-3">
-                            <span class="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-3 text-sm font-bold">1</span>
-                            <h4 class="font-bold text-stone-700" data-i18n="slot_morning">Morning (30m)</h4>
+                    <div class="p-6 hover:bg-stone-50 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-8 h-8 flex items-center justify-center bg-blue-100 text-blue-600 rounded-full mr-3 text-sm font-bold">1</span>
+                                <h4 class="font-bold text-stone-700" data-i18n="slot_morning">Morning (30m)</h4>
+                            </div>
+                            <p class="text-xs font-bold text-blue-500 uppercase mb-1" data-i18n="cat_structure">Structure</p>
+                            <p id="task-morning" class="text-sm font-medium leading-relaxed mb-2">...</p>
                         </div>
-                        <p class="text-xs font-bold text-blue-500 uppercase mb-1" data-i18n="cat_structure">Structure</p>
-                        <p id="task-morning" class="text-sm font-medium leading-relaxed">...</p>
+                        <div id="link-morning"></div>
                     </div>
 
                     <!-- Slot 2: Immersion -->
-                    <div class="p-6 hover:bg-stone-50 transition">
-                        <div class="flex items-center mb-3">
-                            <span class="w-8 h-8 flex items-center justify-center bg-green-100 text-green-600 rounded-full mr-3 text-sm font-bold">2</span>
-                            <h4 class="font-bold text-stone-700" data-i18n="slot_noon">Noon (30m)</h4>
+                    <div class="p-6 hover:bg-stone-50 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-8 h-8 flex items-center justify-center bg-green-100 text-green-600 rounded-full mr-3 text-sm font-bold">2</span>
+                                <h4 class="font-bold text-stone-700" data-i18n="slot_noon">Noon (30m)</h4>
+                            </div>
+                            <p class="text-xs font-bold text-green-500 uppercase mb-1" data-i18n="cat_immersion">Vocabulary</p>
+                            <p id="task-noon" class="text-sm font-medium leading-relaxed mb-2">...</p>
                         </div>
-                        <p class="text-xs font-bold text-green-500 uppercase mb-1" data-i18n="cat_immersion">Immersion</p>
-                        <p id="task-noon" class="text-sm font-medium leading-relaxed">...</p>
+                        <div id="link-noon"></div>
                     </div>
 
                     <!-- Slot 3: Active Input -->
-                    <div class="p-6 hover:bg-stone-50 transition">
-                        <div class="flex items-center mb-3">
-                            <span class="w-8 h-8 flex items-center justify-center bg-amber-100 text-amber-600 rounded-full mr-3 text-sm font-bold">3</span>
-                            <h4 class="font-bold text-stone-700" data-i18n="slot_pm">Afternoon (30m)</h4>
+                    <div class="p-6 hover:bg-stone-50 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-8 h-8 flex items-center justify-center bg-amber-100 text-amber-600 rounded-full mr-3 text-sm font-bold">3</span>
+                                <h4 class="font-bold text-stone-700" data-i18n="slot_pm">Afternoon (30m)</h4>
+                            </div>
+                            <p class="text-xs font-bold text-amber-500 uppercase mb-1" data-i18n="cat_input">Active Input</p>
+                            <p id="task-pm" class="text-sm font-medium leading-relaxed mb-2">...</p>
                         </div>
-                        <p class="text-xs font-bold text-amber-500 uppercase mb-1" data-i18n="cat_input">Active Input</p>
-                        <p id="task-pm" class="text-sm font-medium leading-relaxed">...</p>
+                        <div id="link-pm"></div>
                     </div>
 
                     <!-- Slot 4: Output -->
-                    <div class="p-6 hover:bg-stone-50 transition">
-                        <div class="flex items-center mb-3">
-                            <span class="w-8 h-8 flex items-center justify-center bg-red-100 text-red-600 rounded-full mr-3 text-sm font-bold">4</span>
-                            <h4 class="font-bold text-stone-700" data-i18n="slot_eve">Evening (30m)</h4>
+                    <div class="p-6 hover:bg-stone-50 transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <span class="w-8 h-8 flex items-center justify-center bg-red-100 text-red-600 rounded-full mr-3 text-sm font-bold">4</span>
+                                <h4 class="font-bold text-stone-700" data-i18n="slot_eve">Evening (30m)</h4>
+                            </div>
+                            <p class="text-xs font-bold text-red-500 uppercase mb-1" data-i18n="cat_output">Production</p>
+                            <p id="task-evening" class="text-sm font-medium leading-relaxed mb-2">...</p>
                         </div>
-                        <p class="text-xs font-bold text-red-500 uppercase mb-1" data-i18n="cat_output">Production</p>
-                        <p id="task-evening" class="text-sm font-medium leading-relaxed">...</p>
+                        <div id="link-eve"></div>
                     </div>
                 </div>
             </div>
@@ -343,7 +366,7 @@
                 lbl_current_day: "Current Day", btn_next: "Next →", lbl_progress: "Total Progress",
                 btn_mark_done: "Mark Complete", btn_completed: "Completed",
                 slot_morning: "Morning (30m)", slot_noon: "Noon (30m)", slot_pm: "Afternoon (30m)", slot_eve: "Evening (30m)",
-                cat_structure: "Structure", cat_immersion: "Immersion", cat_input: "Input", cat_output: "Output",
+                cat_structure: "Structure", cat_immersion: "Vocabulary", cat_input: "Input", cat_output: "Output",
                 btn_full_cal: "View Full 365-Day List", cal_title: "Generated Calendar",
                 roadmap_title: "Overview: The 4 Phases", res_title: "Free Study Resources",
                 tip_generic: "Regularity beats intensity. Keep going!",
@@ -359,7 +382,7 @@
                 lbl_current_day: "Jour Actuel", btn_next: "Suivant →", lbl_progress: "Progression Totale",
                 btn_mark_done: "Marquer Terminé", btn_completed: "Terminé",
                 slot_morning: "Matin (30m)", slot_noon: "Midi (30m)", slot_pm: "Après-Midi (30m)", slot_eve: "Soir (30m)",
-                cat_structure: "Structure", cat_immersion: "Immersion", cat_input: "Input Actif", cat_output: "Production",
+                cat_structure: "Structure", cat_immersion: "Vocabulaire", cat_input: "Input Actif", cat_output: "Production",
                 btn_full_cal: "Voir calendrier complet", cal_title: "Calendrier Généré",
                 roadmap_title: "Vue d'Ensemble", res_title: "Ressources Gratuites",
                 tip_generic: "La régularité bat l'intensité. Courage !",
@@ -369,55 +392,55 @@
 
         // --- CONTENT DATA (Bilingual) ---
         const grammarTopics = [
-            {en: "Articles (le, la, un, une)", fr: "Articles (le, la, les, un, une)"},
-            {en: "Verbs Être & Avoir (Present)", fr: "Verbe Être & Avoir (Présent)"},
-            {en: "Regular -ER Verbs", fr: "Verbes en -ER (Présent)"},
-            {en: "Negation (ne...pas)", fr: "Négation (ne...pas)"},
-            {en: "Asking Questions (est-ce que...)", fr: "Interrogation (est-ce que...)"},
-            {en: "Adjective Agreement", fr: "Adjectifs (accord)"},
-            {en: "Prepositions (à, en, chez)", fr: "Prépositions de lieu (à, en, chez)"},
-            {en: "Possessive Adjectives", fr: "Adjectifs possessifs (mon, ton...)"},
-            {en: "-IR Verbs (finir)", fr: "Verbes en -IR (finir)"},
-            {en: "-RE Verbs (vendre)", fr: "Verbes en -RE (vendre)"},
-            {en: "Near Future (aller + inf)", fr: "Le Futur Proche (aller + inf)"},
-            {en: "Intro to Past Tense", fr: "Le Passé Composé (intro)"},
-            {en: "Passé Composé (Avoir vs Être)", fr: "Passé Composé (Avoir vs Être)"},
-            {en: "Imperfect Tense (Intro)", fr: "L'Imparfait (intro)"},
-            {en: "Passé Composé vs Imparfait", fr: "Passé Composé vs Imparfait"},
-            {en: "Simple Future", fr: "Futur Simple"},
-            {en: "Direct Object Pronouns (le, la)", fr: "Pronoms COD (le, la, les)"},
-            {en: "Indirect Object Pronouns (lui, leur)", fr: "Pronoms COI (lui, leur)"},
-            {en: "Pronouns Y and EN", fr: "Pronoms y et en"},
-            {en: "Comparatives", fr: "Les Comparatifs"},
-            {en: "Conditional Present", fr: "Le Conditionnel Présent"},
-            {en: "Si Clauses", fr: "Les Si (Conditionnel)"},
-            {en: "Subjunctive (Necessity)", fr: "Le Subjonctif (Il faut que)"},
-            {en: "Subjunctive (Emotion/Doubt)", fr: "Le Subjonctif (émotion/doute)"},
-            {en: "Relative Pronouns (qui, que)", fr: "Les Pronoms Relatifs (qui, que, où)"},
-            {en: "Relative Pronoun Dont", fr: "Le Pronom Relatif (dont)"},
-            {en: "Passive Voice", fr: "La Voix Passive"},
-            {en: "Gerund (en mangeant)", fr: "Le Gérondif (en mangeant)"},
-            {en: "Indirect Speech", fr: "Le Discours Indirect"},
-            {en: "Logical Connectors", fr: "Les Connecteurs Logiques"}
+            {en: "Articles (le, la, un, une)", fr: "Articles (le, la, les, un, une)", url: "https://www.lawlessfrench.com/grammar/articles/"},
+            {en: "Verbs Être & Avoir (Present)", fr: "Verbe Être & Avoir (Présent)", url: "https://www.lawlessfrench.com/grammar/etre-and-avoir/"},
+            {en: "Regular -ER Verbs", fr: "Verbes en -ER (Présent)", url: "https://www.lawlessfrench.com/grammar/er-verbs/"},
+            {en: "Negation (ne...pas)", fr: "Négation (ne...pas)", url: "https://www.lawlessfrench.com/grammar/negation-introduction/"},
+            {en: "Asking Questions (est-ce que...)", fr: "Interrogation (est-ce que...)", url: "https://www.lawlessfrench.com/grammar/questions/"},
+            {en: "Adjective Agreement", fr: "Adjectifs (accord)", url: "https://www.lawlessfrench.com/grammar/adjectives/"},
+            {en: "Prepositions (à, en, chez)", fr: "Prépositions de lieu (à, en, chez)", url: "https://www.lawlessfrench.com/grammar/prepositions/"},
+            {en: "Possessive Adjectives", fr: "Adjectifs possessifs (mon, ton...)", url: "https://www.lawlessfrench.com/grammar/possessive-adjectives/"},
+            {en: "-IR Verbs (finir)", fr: "Verbes en -IR (finir)", url: "https://www.lawlessfrench.com/grammar/ir-verbs/"},
+            {en: "-RE Verbs (vendre)", fr: "Verbes en -RE (vendre)", url: "https://www.lawlessfrench.com/grammar/re-verbs/"},
+            {en: "Near Future (aller + inf)", fr: "Le Futur Proche (aller + inf)", url: "https://www.lawlessfrench.com/grammar/near-future/"},
+            {en: "Intro to Past Tense", fr: "Le Passé Composé (intro)", url: "https://www.lawlessfrench.com/grammar/passe-compose/"},
+            {en: "Passé Composé (Avoir vs Être)", fr: "Passé Composé (Avoir vs Être)", url: "https://www.lawlessfrench.com/grammar/auxiliary-verbs/"},
+            {en: "Imperfect Tense (Intro)", fr: "L'Imparfait (intro)", url: "https://www.lawlessfrench.com/grammar/imparfait/"},
+            {en: "Passé Composé vs Imparfait", fr: "Passé Composé vs Imparfait", url: "https://www.lawlessfrench.com/grammar/passe-compose-vs-imparfait/"},
+            {en: "Simple Future", fr: "Futur Simple", url: "https://www.lawlessfrench.com/grammar/future/"},
+            {en: "Direct Object Pronouns (le, la)", fr: "Pronoms COD (le, la, les)", url: "https://www.lawlessfrench.com/grammar/direct-objects/"},
+            {en: "Indirect Object Pronouns (lui, leur)", fr: "Pronoms COI (lui, leur)", url: "https://www.lawlessfrench.com/grammar/indirect-objects/"},
+            {en: "Pronouns Y and EN", fr: "Pronoms y et en", url: "https://www.lawlessfrench.com/grammar/pronomial-verbs/"},
+            {en: "Comparatives", fr: "Les Comparatifs", url: "https://www.lawlessfrench.com/grammar/comparatives/"},
+            {en: "Conditional Present", fr: "Le Conditionnel Présent", url: "https://www.lawlessfrench.com/grammar/conditional/"},
+            {en: "Si Clauses", fr: "Les Si (Conditionnel)", url: "https://www.lawlessfrench.com/grammar/si-clauses-first-conditional/"},
+            {en: "Subjunctive (Necessity)", fr: "Le Subjonctif (Il faut que)", url: "https://www.lawlessfrench.com/grammar/subjunctive/"},
+            {en: "Subjunctive (Emotion/Doubt)", fr: "Le Subjonctif (émotion/doute)", url: "https://www.lawlessfrench.com/grammar/subjunctivisor/"},
+            {en: "Relative Pronouns (qui, que)", fr: "Les Pronoms Relatifs (qui, que, où)", url: "https://www.lawlessfrench.com/grammar/relative-pronouns-que-qui/"},
+            {en: "Relative Pronoun Dont", fr: "Le Pronom Relatif (dont)", url: "https://www.lawlessfrench.com/grammar/relative-pronoun-dont/"},
+            {en: "Passive Voice", fr: "La Voix Passive", url: "https://www.lawlessfrench.com/grammar/passive-voice/"},
+            {en: "Gerund (en mangeant)", fr: "Le Gérondif (en mangeant)", url: "https://www.lawlessfrench.com/grammar/present-participle/"},
+            {en: "Indirect Speech", fr: "Le Discours Indirect", url: "https://www.lawlessfrench.com/grammar/indirect-speech/"},
+            {en: "Logical Connectors", fr: "Les Connecteurs Logiques", url: "https://www.lawlessfrench.com/vocabulary/conjunctions/"}
         ];
 
         const vocabThemes = [
-            {en: "Greetings & Numbers", fr: "Salutations & Nombres"},
-            {en: "Family & Friends", fr: "La Famille & Amis"},
-            {en: "Home & Furniture", fr: "La Maison & Meubles"},
-            {en: "City & Directions", fr: "La Ville & Directions"},
-            {en: "Food & Cooking", fr: "La Nourriture & Cuisine"},
-            {en: "Body & Health", fr: "Le Corps & Santé"},
-            {en: "Clothing & Fashion", fr: "Les Vêtements & Mode"},
-            {en: "Work & Professions", fr: "Le Travail & Professions"},
-            {en: "Education & Study", fr: "L'Éducation & Études"},
-            {en: "Hobbies & Sports", fr: "Les Loisirs & Sports"},
-            {en: "Travel & Transport", fr: "Voyage & Transport"},
-            {en: "Weather & Seasons", fr: "Météo & Saisons"},
-            {en: "Tech & Media", fr: "Technologie & Média"},
-            {en: "Environment", fr: "Environnement & Nature"},
-            {en: "Politics & Society", fr: "Politique & Société"},
-            {en: "Feelings & Opinions", fr: "Sentiments & Opinions"}
+            {en: "Greetings & Numbers", fr: "Salutations & Nombres", query: "french greetings numbers"},
+            {en: "Family & Friends", fr: "La Famille & Amis", query: "french vocabulary family"},
+            {en: "Home & Furniture", fr: "La Maison & Meubles", query: "french vocabulary home furniture"},
+            {en: "City & Directions", fr: "La Ville & Directions", query: "french vocabulary city directions"},
+            {en: "Food & Cooking", fr: "La Nourriture & Cuisine", query: "french vocabulary food cooking"},
+            {en: "Body & Health", fr: "Le Corps & Santé", query: "french vocabulary body health"},
+            {en: "Clothing & Fashion", fr: "Les Vêtements & Mode", query: "french vocabulary clothing"},
+            {en: "Work & Professions", fr: "Le Travail & Professions", query: "french vocabulary professions work"},
+            {en: "Education & Study", fr: "L'Éducation & Études", query: "french vocabulary school education"},
+            {en: "Hobbies & Sports", fr: "Les Loisirs & Sports", query: "french vocabulary hobbies sports"},
+            {en: "Travel & Transport", fr: "Voyage & Transport", query: "french vocabulary travel transport"},
+            {en: "Weather & Seasons", fr: "Météo & Saisons", query: "french vocabulary weather"},
+            {en: "Tech & Media", fr: "Technologie & Média", query: "french vocabulary technology"},
+            {en: "Environment", fr: "Environnement & Nature", query: "french vocabulary environment"},
+            {en: "Politics & Society", fr: "Politique & Société", query: "french vocabulary politics society"},
+            {en: "Feelings & Opinions", fr: "Sentiments & Opinions", query: "french vocabulary feelings emotions"}
         ];
 
         const outputTasks = [
@@ -530,16 +553,23 @@
             const vocabIndex = Math.floor((day - 1) / 7) % vocabThemes.length;
             const outputIndex = (day - 1) % outputTasks.length;
 
-            const gTopic = grammarTopics[grammarIndex][currentLang];
-            const vTheme = vocabThemes[vocabIndex][currentLang];
-            const oTask = outputTasks[outputIndex][currentLang];
+            const gTopicObj = grammarTopics[grammarIndex];
+            const vThemeObj = vocabThemes[vocabIndex];
+            const oTaskObj = outputTasks[outputIndex];
+
+            const gTopic = gTopicObj[currentLang];
+            const vTheme = vThemeObj[currentLang];
+            const oTask = oTaskObj[currentLang];
 
             let plan = {
                 phase: phase,
                 title: `${currentLang === 'en' ? 'Day' : 'Jour'} ${day}`,
                 grammar: gTopic,
+                grammarUrl: gTopicObj.url,
                 vocab: vTheme,
+                vocabQuery: vThemeObj.query,
                 active: "",
+                activeLink: "",
                 output: oTask,
                 tip: ""
             };
@@ -547,25 +577,33 @@
             // Custom adjustments
             if (phase === 1) {
                 plan.title += currentLang === 'en' ? ": Foundation" : ": Fondation";
-                plan.active = currentLang === 'en' ? "Listening (Slow - YouTube/Podcasts)" : "Compréhension Orale (Lent)";
+                plan.active = currentLang === 'en' ? "Listening: Slow French (Podcast/YouTube)" : "CO: Français Lent (YouTube)";
+                plan.activeLink = "https://www.youtube.com/results?search_query=french+podcast+beginner";
                 if (day % 7 === 0) { 
                     plan.title = currentLang === 'en' ? `Day ${day}: REST & REVIEW` : `Jour ${day}: REPOS & RÉVISION`; 
                     plan.grammar = currentLang === 'en' ? "Weekly Review" : "Révision de la semaine"; 
+                    plan.grammarUrl = "";
                     plan.output = "-"; 
                 }
             } else if (phase === 2) {
                 plan.title += currentLang === 'en' ? ": Intermediate" : ": Intermédiaire";
-                plan.active = currentLang === 'en' ? "Read News (Le Monde/RFI) or TV Series" : "Lecture Journal ou Série TV";
-                if (day % 7 === 0) plan.active = currentLang === 'en' ? "Partial Mock Test (30m)" : "Test Blanc Partiel (30m)";
+                plan.active = currentLang === 'en' ? "Read: News Headlines (La Presse)" : "Lecture: La Presse";
+                plan.activeLink = "https://www.lapresse.ca/";
+                if (day % 7 === 0) {
+                    plan.active = currentLang === 'en' ? "Partial Mock Test (30m)" : "Test Blanc Partiel (30m)";
+                    plan.activeLink = "https://www.youtube.com/results?search_query=tef+compr%C3%A9hension+orale";
+                }
             } else if (phase === 3) {
                 plan.title += currentLang === 'en' ? ": B2 Mastery" : ": Avancé B2";
                 plan.grammar = (currentLang === 'en' ? "Deep Dive: " : "Raffinement: ") + gTopic;
-                plan.active = currentLang === 'en' ? "TEF Sim (Timed Listening/Reading)" : "TEF Simulation (CO/CE)";
+                plan.active = currentLang === 'en' ? "Listen: RFI Journal en français facile" : "Écoute: RFI Journal facile";
+                plan.activeLink = "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/";
                 plan.output = currentLang === 'en' ? "TEF Task A or B (Argument)" : "TEF Tâche A ou B";
             } else {
                 plan.title += currentLang === 'en' ? ": Simulation" : ": Simulation";
                 plan.grammar = currentLang === 'en' ? "Error Analysis from Mock Tests" : "Analyse des erreurs";
                 plan.active = currentLang === 'en' ? "Full Mock Test Section" : "Test Blanc Complet";
+                plan.activeLink = "https://www.youtube.com/results?search_query=tef+canada+blanc";
                 plan.output = currentLang === 'en' ? "Exam Conditions" : "Conditions Examen";
             }
 
@@ -584,9 +622,35 @@
             document.getElementById('day-phase-badge').innerText = i18n[currentLang].phase_labels[plan.phase-1];
             
             document.getElementById('task-morning').innerText = `${currentLang === 'en' ? 'Focus' : 'Sujet'}: ${plan.grammar}`;
+            // Grammar Link
+            const gLink = document.getElementById('link-morning');
+            if(plan.grammarUrl) {
+                gLink.innerHTML = `<a href="${plan.grammarUrl}" target="_blank" class="study-btn">📖 ${currentLang==='en'?'Study This Topic':'Étudier ce sujet'} &rarr;</a>`;
+            } else {
+                gLink.innerHTML = '';
+            }
+
             document.getElementById('task-noon').innerText = `${currentLang === 'en' ? 'Theme' : 'Thème'}: ${plan.vocab}`;
+            // Vocab Link
+            const vLink = document.getElementById('link-noon');
+            if(plan.vocabQuery) {
+                const q = encodeURIComponent(plan.vocabQuery);
+                vLink.innerHTML = `<a href="https://www.youtube.com/results?search_query=${q}" target="_blank" class="study-btn">📺 ${currentLang==='en'?'Watch Videos':'Voir vidéos'} &rarr;</a>`;
+            } else {
+                vLink.innerHTML = '';
+            }
+
             document.getElementById('task-pm').innerText = plan.active;
+            // Active Link
+            const aLink = document.getElementById('link-pm');
+            if(plan.activeLink) {
+                 aLink.innerHTML = `<a href="${plan.activeLink}" target="_blank" class="study-btn">🎧 ${currentLang==='en'?'Go to Source':'Voir la source'} &rarr;</a>`;
+            } else {
+                aLink.innerHTML = '';
+            }
+
             document.getElementById('task-evening').innerText = plan.output;
+            document.getElementById('link-eve').innerHTML = ''; // Output is usually offline/self-generated
 
             // Check Button Status
             const btn = document.getElementById('btn-complete');
