@@ -39,9 +39,8 @@
             max-height: 400px; 
         }
         
-        .phase-card { transition: all 0.3s ease; }
-        .phase-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         .active-phase { border-color: #d97706; background-color: #fffbeb; }
+        body.dark-mode .active-phase { border-color: #d97706; background-color: #451a03; }
         
         /* Custom scrollbar */
         .day-list::-webkit-scrollbar { width: 8px; }
@@ -101,8 +100,8 @@
                     </button>
                 </div>
                 <div class="hidden md:flex space-x-8">
-                    <button onclick="scrollToSection('scores')" class="hover:text-amber-600 font-medium transition" data-i18n="nav_goals">Goals</button>
                     <button onclick="scrollToSection('daily-planner')" class="hover:text-amber-600 font-medium transition" data-i18n="nav_daily">Daily Plan</button>
+                    <button onclick="scrollToSection('curriculum')" class="hover:text-amber-600 font-medium transition" data-i18n="nav_roadmap">Curriculum</button>
                     <button onclick="scrollToSection('tools')" class="hover:text-amber-600 font-medium transition" data-i18n="nav_tools">Tools</button>
                 </div>
             </div>
@@ -118,8 +117,8 @@
                     Zero to Bilingual in <span class="text-amber-600">365 Days</span>
                 </h1>
                 <p class="text-lg md:text-xl text-stone-600 dark:text-stone-400 mb-8 leading-relaxed" data-i18n="hero_subtitle">
-                    A strategic day-by-day plan to master French. 
-                    <br><span class="text-sm font-medium">Track your daily progress below.</span>
+                    A strategic, week-by-week progressive plan to master French. 
+                    <br><span class="text-sm font-medium">No random loops. Real progression.</span>
                 </p>
                 <button onclick="scrollToSection('daily-planner')" class="bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition transform hover:-translate-y-1" data-i18n="hero_cta">
                     Start Today's Mission
@@ -128,43 +127,6 @@
         </div>
     </header>
 
-    <!-- Score Targets Section -->
-    <section id="scores" class="py-12 bg-card-theme">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h2 class="text-3xl font-bold mb-4" data-i18n="target_title">The Target: CLB 7</h2>
-                    <p class="mb-6 opacity-80" data-i18n="target_desc">
-                        For Express Entry immigration, CLB 7 (B2 Level) is the critical threshold.
-                    </p>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-stone-50 dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
-                            <h3 class="font-bold text-sm">Listening (CO)</h3>
-                            <p class="text-xs opacity-70">Target: 249–279</p>
-                        </div>
-                        <div class="bg-stone-50 dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
-                            <h3 class="font-bold text-sm">Reading (CE)</h3>
-                            <p class="text-xs opacity-70">Target: 207–232</p>
-                        </div>
-                        <div class="bg-stone-50 dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
-                            <h3 class="font-bold text-sm">Speaking (EO)</h3>
-                            <p class="text-xs opacity-70">Target: 310–348</p>
-                        </div>
-                        <div class="bg-stone-50 dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
-                            <h3 class="font-bold text-sm">Writing (EE)</h3>
-                            <p class="text-xs opacity-70">Target: 310–348</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="bg-card-theme p-4 rounded-xl shadow-sm border border-stone-100 dark:border-stone-800">
-                    <div class="chart-container" style="height: 250px;">
-                        <canvas id="scoreChart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- DAILY PLANNER SECTION -->
     <section id="daily-planner" class="py-16 bg-stone-800 text-white relative overflow-hidden">
         <div class="absolute top-0 right-0 -mr-20 -mt-20 w-96 h-96 bg-amber-500 rounded-full opacity-10 blur-3xl"></div>
@@ -172,7 +134,7 @@
         <div class="max-w-5xl mx-auto px-4 relative z-10">
             <div class="text-center mb-10">
                 <h2 class="text-3xl md:text-4xl font-bold font-serif mb-4" data-i18n="planner_title">Daily Logbook</h2>
-                <p class="text-stone-400" data-i18n="planner_subtitle">Enter day number (1-365) to generate your specific action plan.</p>
+                <p class="text-stone-400" data-i18n="planner_subtitle">Enter day number (1-365) to see your specific Phase curriculum.</p>
             </div>
 
             <!-- Controls -->
@@ -215,8 +177,11 @@
                 <div class="bg-gradient-to-r from-amber-100 to-white dark:from-stone-700 dark:to-stone-800 p-6 border-b border-stone-200 dark:border-stone-700">
                     <div class="flex justify-between items-center">
                         <div>
-                            <span id="day-phase-badge" class="inline-block px-2 py-1 bg-amber-600 text-white text-xs font-bold rounded uppercase tracking-wider mb-2">Phase 1</span>
-                            <h3 id="day-title" class="text-2xl md:text-3xl font-bold font-serif">Day 1: The Adventure Begins</h3>
+                            <div class="flex gap-2 mb-2">
+                                <span id="day-phase-badge" class="inline-block px-2 py-1 bg-amber-600 text-white text-xs font-bold rounded uppercase tracking-wider">Phase 1</span>
+                                <span id="week-badge" class="inline-block px-2 py-1 bg-stone-200 text-stone-600 dark:bg-stone-600 dark:text-stone-300 text-xs font-bold rounded uppercase tracking-wider">Week 1</span>
+                            </div>
+                            <h3 id="day-title" class="text-2xl md:text-3xl font-bold font-serif">Day 1: Foundation</h3>
                         </div>
                         <div class="text-right">
                             <button id="btn-complete" onclick="toggleCompletion()" class="check-btn flex items-center space-x-2 bg-stone-200 dark:bg-stone-600 hover:bg-green-500 hover:text-white text-stone-600 dark:text-stone-300 font-bold py-2 px-4 rounded-lg shadow transition">
@@ -300,6 +265,43 @@
         </div>
     </section>
 
+    <!-- Score Targets Section (Moved for Flow) -->
+    <section id="curriculum" class="py-12 bg-stone-100 dark:bg-stone-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold mb-4" data-i18n="target_title">The Target: CLB 7</h2>
+                    <p class="mb-6 opacity-80" data-i18n="target_desc">
+                        For Express Entry immigration, CLB 7 (B2 Level) is the critical threshold.
+                    </p>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-white dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
+                            <h3 class="font-bold text-sm">Listening (CO)</h3>
+                            <p class="text-xs opacity-70">Target: 249–279</p>
+                        </div>
+                        <div class="bg-white dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
+                            <h3 class="font-bold text-sm">Reading (CE)</h3>
+                            <p class="text-xs opacity-70">Target: 207–232</p>
+                        </div>
+                        <div class="bg-white dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
+                            <h3 class="font-bold text-sm">Speaking (EO)</h3>
+                            <p class="text-xs opacity-70">Target: 310–348</p>
+                        </div>
+                        <div class="bg-white dark:bg-stone-800 p-3 rounded border-l-4 border-amber-500">
+                            <h3 class="font-bold text-sm">Writing (EE)</h3>
+                            <p class="text-xs opacity-70">Target: 310–348</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-stone-800 p-4 rounded-xl shadow-sm border border-stone-200 dark:border-stone-800">
+                    <div class="chart-container" style="height: 250px;">
+                        <canvas id="scoreChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Resources Section -->
     <section id="resources" class="py-16 bg-stone-900 text-stone-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -309,11 +311,11 @@
                 <div class="bg-stone-800 p-6 rounded-lg border border-stone-700">
                     <h3 class="text-xl font-bold text-white mb-4 border-b border-stone-600 pb-2">🛠️ Tools & Grammar</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://www.lawlessfrench.com/" target="_blank" class="resource-link block">Lawless French</a></li>
-                        <li><a href="https://bescherelle.com/conjugueur.php" target="_blank" class="resource-link block">Bescherelle</a></li>
-                        <li><a href="https://www.wordreference.com/" target="_blank" class="resource-link block">WordReference</a></li>
-                        <li><a href="https://www.linguee.com/" target="_blank" class="resource-link block">Linguee</a></li>
-                        <li><a href="https://www.deepl.com/" target="_blank" class="resource-link block">DeepL</a></li>
+                        <li><a href="https://www.lawlessfrench.com/" target="_blank" class="resource-link block">Lawless French (Best Grammar)</a></li>
+                        <li><a href="https://bescherelle.com/conjugueur.php" target="_blank" class="resource-link block">Bescherelle (Conjugation)</a></li>
+                        <li><a href="https://www.wordreference.com/" target="_blank" class="resource-link block">WordReference (Dictionary)</a></li>
+                        <li><a href="https://www.linguee.com/" target="_blank" class="resource-link block">Linguee (Translations)</a></li>
+                        <li><a href="https://www.deepl.com/" target="_blank" class="resource-link block">DeepL (Translator)</a></li>
                         <li><a href="https://ankiweb.net/" target="_blank" class="resource-link block">Anki (Flashcards)</a></li>
                     </ul>
                 </div>
@@ -321,30 +323,32 @@
                 <div class="bg-stone-800 p-6 rounded-lg border border-stone-700">
                     <h3 class="text-xl font-bold text-white mb-4 border-b border-stone-600 pb-2">🍁 Canadian Listening</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://mauril.ca/en/" target="_blank" class="resource-link block">Mauril App</a></li>
+                        <li><a href="https://mauril.ca/en/" target="_blank" class="resource-link block">Mauril App (CBC/Radio-Canada)</a></li>
                         <li><a href="https://ici.radio-canada.ca/ohdio" target="_blank" class="resource-link block">Radio-Canada Ohdio</a></li>
-                        <li><a href="https://ici.tou.tv/" target="_blank" class="resource-link block">ICI Tou.tv</a></li>
-                        <li><a href="https://www.tv5monde.com/" target="_blank" class="resource-link block">TV5Monde</a></li>
+                        <li><a href="https://ici.tou.tv/" target="_blank" class="resource-link block">ICI Tou.tv (Canadian TV)</a></li>
+                        <li><a href="https://www.tv5monde.com/" target="_blank" class="resource-link block">TV5Monde (Global French)</a></li>
+                        <li><a href="https://baladoquebec.ca/" target="_blank" class="resource-link block">BaladoQuébec (Podcasts)</a></li>
                     </ul>
                 </div>
                 <!-- Reading -->
                 <div class="bg-stone-800 p-6 rounded-lg border border-stone-700">
                     <h3 class="text-xl font-bold text-white mb-4 border-b border-stone-600 pb-2">📖 Reading</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://www.lapresse.ca/" target="_blank" class="resource-link block">La Presse</a></li>
-                        <li><a href="https://www.ledevoir.com/" target="_blank" class="resource-link block">Le Devoir</a></li>
-                        <li><a href="https://savoirs.rfi.fr/fr/apprendre-enseigner" target="_blank" class="resource-link block">RFI Savoirs</a></li>
-                        <li><a href="https://www.thefrenchexperiment.com/stories" target="_blank" class="resource-link block">French Stories</a></li>
+                        <li><a href="https://www.lapresse.ca/" target="_blank" class="resource-link block">La Presse (News App)</a></li>
+                        <li><a href="https://www.ledevoir.com/" target="_blank" class="resource-link block">Le Devoir (Newspaper)</a></li>
+                        <li><a href="https://savoirs.rfi.fr/fr/apprendre-enseigner" target="_blank" class="resource-link block">RFI Savoirs (Easy News)</a></li>
+                        <li><a href="https://www.thefrenchexperiment.com/stories" target="_blank" class="resource-link block">French Stories (Beginner)</a></li>
                     </ul>
                 </div>
                 <!-- YouTube -->
                 <div class="bg-stone-800 p-6 rounded-lg border border-stone-700">
                     <h3 class="text-xl font-bold text-white mb-4 border-b border-stone-600 pb-2">📺 YouTube Channels</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="https://www.youtube.com/@innerFrench" target="_blank" class="resource-link block">InnerFrench</a></li>
-                        <li><a href="https://www.youtube.com/@Mapril" target="_blank" class="resource-link block">Mapril (TEF)</a></li>
+                        <li><a href="https://www.youtube.com/@innerFrench" target="_blank" class="resource-link block">InnerFrench (Intermediate)</a></li>
+                        <li><a href="https://www.youtube.com/@Mapril" target="_blank" class="resource-link block">Mapril (TEF Specific)</a></li>
                         <li><a href="https://www.youtube.com/@FrancaisAuthentique" target="_blank" class="resource-link block">Français Authentique</a></li>
                         <li><a href="https://www.youtube.com/@FrenchSchoolTV" target="_blank" class="resource-link block">French School TV</a></li>
+                        <li><a href="https://www.youtube.com/@wanderingfrench" target="_blank" class="resource-link block">Wandering French (Quebec)</a></li>
                     </ul>
                 </div>
             </div>
@@ -369,12 +373,12 @@
         let currentLang = 'en';
         let isDark = false;
         let completedDays = JSON.parse(localStorage.getItem('tef_completed_days')) || [];
-        let timers = {}; // Store timer intervals
+        let timers = {};
 
         // --- TRANSLATION DATA ---
         const i18n = {
             en: {
-                nav_goals: "Goals", nav_daily: "Daily Plan", nav_tools: "Tools", nav_resources: "Resources",
+                nav_goals: "Goals", nav_daily: "Daily Plan", nav_tools: "Tools", nav_resources: "Resources", nav_roadmap: "Curriculum",
                 hero_badge: "GOAL: CLB 7 / B2", hero_title: 'Zero to Bilingual in <span class="text-amber-600">365 Days</span>',
                 hero_subtitle: 'A strategic day-by-day plan to master French.<br><span class="text-sm font-medium">Track your daily progress below.</span>',
                 hero_cta: "Start Today's Mission",
@@ -386,11 +390,11 @@
                 tool_speak_title: "Speaking Prompt Generator", tool_clb_title: "CLB Calculator", tool_tts_title: "Quebec French Reader",
                 res_title: "Free Study Resources",
                 slot_morning: "Morning", slot_noon: "Noon", slot_pm: "Afternoon", slot_eve: "Evening",
-                cat_structure: "Structure", cat_immersion: "Vocabulary", cat_input: "Input", cat_output: "Production",
+                cat_structure: "Structure", cat_immersion: "Immersion", cat_input: "Input", cat_output: "Production",
                 btn_full_cal: "View Full 365-Day List", start_timer: "⏱️ Start 30m", btn_speak: "🔊 Read Aloud"
             },
             fr: {
-                nav_goals: "Objectifs", nav_daily: "Journalier", nav_tools: "Outils", nav_resources: "Ressources",
+                nav_goals: "Objectifs", nav_daily: "Journalier", nav_tools: "Outils", nav_resources: "Ressources", nav_roadmap: "Programme",
                 hero_badge: "OBJECTIF: CLB 7 / B2", hero_title: 'De Zéro à Bilingue en <span class="text-amber-600">365 Jours</span>',
                 hero_subtitle: 'Un plan stratégique quotidien pour maîtriser le français.<br><span class="text-sm font-medium">Suivez votre progression ci-dessous.</span>',
                 hero_cta: "Voir ma mission du jour",
@@ -407,69 +411,69 @@
             }
         };
 
-        // --- CONTENT DATA (Full 200% Content Restored) ---
-        const grammarTopics = [
-            {en: "Articles (le, la, un, une)", fr: "Articles", url: "https://www.lawlessfrench.com/grammar/articles/"},
-            {en: "Verbs Être & Avoir", fr: "Verbe Être & Avoir", url: "https://www.lawlessfrench.com/grammar/etre-and-avoir/"},
-            {en: "Regular -ER Verbs", fr: "Verbes en -ER", url: "https://www.lawlessfrench.com/grammar/er-verbs/"},
-            {en: "Negation (ne...pas)", fr: "Négation", url: "https://www.lawlessfrench.com/grammar/negation-introduction/"},
-            {en: "Asking Questions", fr: "Interrogation", url: "https://www.lawlessfrench.com/grammar/questions/"},
-            {en: "Adjective Agreement", fr: "Accord Adjectifs", url: "https://www.lawlessfrench.com/grammar/adjectives/"},
-            {en: "Prepositions (à, en)", fr: "Prépositions", url: "https://www.lawlessfrench.com/grammar/prepositions/"},
-            {en: "Possessive Adjectives", fr: "Adjectifs Possessifs", url: "https://www.lawlessfrench.com/grammar/possessive-adjectives/"},
-            {en: "-IR Verbs", fr: "Verbes en -IR", url: "https://www.lawlessfrench.com/grammar/ir-verbs/"},
-            {en: "-RE Verbs", fr: "Verbes en -RE", url: "https://www.lawlessfrench.com/grammar/re-verbs/"},
-            {en: "Near Future (Futur Proche)", fr: "Futur Proche", url: "https://www.lawlessfrench.com/grammar/near-future/"},
-            {en: "Past Tense (Passé Composé)", fr: "Passé Composé", url: "https://www.lawlessfrench.com/grammar/passe-compose/"},
-            {en: "Auxiliary Verbs (Avoir/Être)", fr: "Auxiliaires", url: "https://www.lawlessfrench.com/grammar/auxiliary-verbs/"},
-            {en: "Imperfect Tense (Imparfait)", fr: "Imparfait", url: "https://www.lawlessfrench.com/grammar/imparfait/"},
-            {en: "Passé Composé vs Imparfait", fr: "PC vs Imparfait", url: "https://www.lawlessfrench.com/grammar/passe-compose-vs-imparfait/"},
-            {en: "Simple Future (Futur Simple)", fr: "Futur Simple", url: "https://www.lawlessfrench.com/grammar/future/"},
-            {en: "Direct Object Pronouns", fr: "COD", url: "https://www.lawlessfrench.com/grammar/direct-objects/"},
-            {en: "Indirect Object Pronouns", fr: "COI", url: "https://www.lawlessfrench.com/grammar/indirect-objects/"},
-            {en: "Pronouns Y and EN", fr: "Pronoms Y/EN", url: "https://www.lawlessfrench.com/grammar/pronouns-y-en/"},
-            {en: "Comparatives", fr: "Comparatifs", url: "https://www.lawlessfrench.com/grammar/comparatives/"},
-            {en: "Conditional Present", fr: "Conditionnel", url: "https://www.lawlessfrench.com/grammar/conditional/"},
-            {en: "Si Clauses (Hypothesis)", fr: "Hypothèses (Si)", url: "https://www.lawlessfrench.com/grammar/si-clauses-first-conditional/"},
-            {en: "Subjunctive (Necessity)", fr: "Subjonctif (Il faut)", url: "https://www.lawlessfrench.com/grammar/subjunctive/"},
-            {en: "Subjunctive (Emotion)", fr: "Subjonctif (Émotion)", url: "https://www.lawlessfrench.com/grammar/subjunctivisor/"},
-            {en: "Relative Pronouns (Qui/Que)", fr: "Pronoms Relatifs", url: "https://www.lawlessfrench.com/grammar/relative-pronouns-que-qui/"},
-            {en: "Relative Pronoun 'Dont'", fr: "Pronom 'Dont'", url: "https://www.lawlessfrench.com/grammar/relative-pronoun-dont/"},
-            {en: "Passive Voice", fr: "Voix Passive", url: "https://www.lawlessfrench.com/grammar/passive-voice/"},
-            {en: "Gerund (En + Participe)", fr: "Gérondif", url: "https://www.lawlessfrench.com/grammar/present-participle/"},
-            {en: "Indirect Speech", fr: "Discours Indirect", url: "https://www.lawlessfrench.com/grammar/indirect-speech/"},
-            {en: "Logical Connectors", fr: "Connecteurs Logiques", url: "https://www.lawlessfrench.com/vocabulary/conjunctions/"}
-        ];
+        // --- 52-WEEK CURRICULUM DATABASE (The Heart of the System) ---
+        // This ensures distinct progression from A0 to B2
+        const curriculum = {
+            // PHASE 1: FOUNDATION (Weeks 1-12)
+            1: { focus: "Intro & Genders", grammar: "Articles (le/la/un/une)", url: "https://www.lawlessfrench.com/grammar/articles/", vocab: "Greetings & Numbers" },
+            2: { focus: "Existence", grammar: "Verbs Être & Avoir (Present)", url: "https://www.lawlessfrench.com/grammar/etre-and-avoir/", vocab: "Classroom Objects" },
+            3: { focus: "Action Basics", grammar: "Regular -ER Verbs", url: "https://www.lawlessfrench.com/grammar/er-verbs/", vocab: "Common Verbs" },
+            4: { focus: "Negation", grammar: "Negation (ne...pas)", url: "https://www.lawlessfrench.com/grammar/negation-introduction/", vocab: "Daily Routine" },
+            5: { focus: "Questions", grammar: "Asking Questions (Est-ce que)", url: "https://www.lawlessfrench.com/grammar/questions/", vocab: "Question Words" },
+            6: { focus: "Descriptions", grammar: "Adjective Agreement", url: "https://www.lawlessfrench.com/grammar/adjectives/", vocab: "Colors & Shapes" },
+            7: { focus: "Location", grammar: "Prepositions of Place (à, en)", url: "https://www.lawlessfrench.com/grammar/prepositions/", vocab: "City & Places" },
+            8: { focus: "Possession", grammar: "Possessive Adjectives (mon/ton)", url: "https://www.lawlessfrench.com/grammar/possessive-adjectives/", vocab: "Family Members" },
+            9: { focus: "Irregular Verbs 1", grammar: "Verbs -IR (finir, choisir)", url: "https://www.lawlessfrench.com/grammar/ir-verbs/", vocab: "Food & Meals" },
+            10: { focus: "Irregular Verbs 2", grammar: "Verbs -RE (vendre, attendre)", url: "https://www.lawlessfrench.com/grammar/re-verbs/", vocab: "Shopping" },
+            11: { focus: "Future Plans", grammar: "Near Future (Aller + Inf)", url: "https://www.lawlessfrench.com/grammar/near-future/", vocab: "Time & Dates" },
+            12: { focus: "Past Events Intro", grammar: "Passé Composé (with Avoir)", url: "https://www.lawlessfrench.com/grammar/passe-compose/", vocab: "Weekend Activities" },
 
-        const vocabThemes = [
-            {en: "Greetings & Numbers", fr: "Salutations & Nombres", query: "french greetings numbers"},
-            {en: "Family & Friends", fr: "La Famille & Amis", query: "french vocabulary family"},
-            {en: "Home & Furniture", fr: "La Maison", query: "french vocabulary home furniture"},
-            {en: "City & Directions", fr: "La Ville", query: "french vocabulary city directions"},
-            {en: "Food & Cooking", fr: "Nourriture & Cuisine", query: "french vocabulary food cooking"},
-            {en: "Body & Health", fr: "Corps & Santé", query: "french vocabulary body health"},
-            {en: "Clothing & Fashion", fr: "Vêtements & Mode", query: "french vocabulary clothing"},
-            {en: "Work & Professions", fr: "Travail & Professions", query: "french vocabulary professions work"},
-            {en: "Education & School", fr: "Éducation & École", query: "french vocabulary school education"},
-            {en: "Hobbies & Sports", fr: "Loisirs & Sports", query: "french vocabulary hobbies sports"},
-            {en: "Travel & Transport", fr: "Voyage & Transport", query: "french vocabulary travel transport"},
-            {en: "Weather & Seasons", fr: "Météo & Saisons", query: "french vocabulary weather"},
-            {en: "Technology & Media", fr: "Technologie & Médias", query: "french vocabulary technology"},
-            {en: "Nature & Environment", fr: "Nature & Environnement", query: "french vocabulary environment"},
-            {en: "Politics & Society", fr: "Politique & Société", query: "french vocabulary politics society"},
-            {en: "Feelings & Emotions", fr: "Sentiments & Émotions", query: "french vocabulary feelings emotions"}
-        ];
+            // PHASE 2: INTERMEDIATE BRIDGE (Weeks 13-30)
+            13: { focus: "Movement Past", grammar: "Passé Composé (with Être)", url: "https://www.lawlessfrench.com/grammar/auxiliary-verbs/", vocab: "Travel & Transport" },
+            14: { focus: "Description Past", grammar: "Imparfait (Introduction)", url: "https://www.lawlessfrench.com/grammar/imparfait/", vocab: "Childhood Memories" },
+            15: { focus: "Storytelling", grammar: "Passé Composé vs Imparfait", url: "https://www.lawlessfrench.com/grammar/passe-compose-vs-imparfait/", vocab: "Story Connectors" },
+            16: { focus: "Real Future", grammar: "Simple Future Tense", url: "https://www.lawlessfrench.com/grammar/future/", vocab: "Weather & Forecast" },
+            17: { focus: "Object Pronouns 1", grammar: "Direct Object Pronouns (le/la)", url: "https://www.lawlessfrench.com/grammar/direct-objects/", vocab: "Replacing Nouns" },
+            18: { focus: "Object Pronouns 2", grammar: "Indirect Object Pronouns (lui/leur)", url: "https://www.lawlessfrench.com/grammar/indirect-objects/", vocab: "Communication Verbs" },
+            19: { focus: "Advanced Pronouns", grammar: "Pronouns Y and EN", url: "https://www.lawlessfrench.com/grammar/pronouns-y-en/", vocab: "Food Quantities" },
+            20: { focus: "Comparisons", grammar: "Comparatives & Superlatives", url: "https://www.lawlessfrench.com/grammar/comparatives/", vocab: "Shopping & Prices" },
+            21: { focus: "Politeness", grammar: "Conditional Present", url: "https://www.lawlessfrench.com/grammar/conditional/", vocab: "Polite Requests" },
+            22: { focus: "Hypothesis", grammar: "Si Clauses (First/Second)", url: "https://www.lawlessfrench.com/grammar/si-clauses-first-conditional/", vocab: "Dreams & Wishes" },
+            23: { focus: "Reflexive Verbs", grammar: "Pronominal Verbs in Past", url: "https://www.lawlessfrench.com/grammar/pronomial-verbs-passe-compose/", vocab: "Daily Routine Advanced" },
+            24: { focus: "Negation Advanced", grammar: "Negation (rien, personne, jamais)", url: "https://www.lawlessfrench.com/grammar/negative-adverbs/", vocab: "Abstract Concepts" },
+            25: { focus: "Relative Pronouns 1", grammar: "Qui vs Que", url: "https://www.lawlessfrench.com/grammar/relative-pronouns-que-qui/", vocab: "Defining Objects" },
+            26: { focus: "Relative Pronouns 2", grammar: "Où and Dont", url: "https://www.lawlessfrench.com/grammar/relative-pronoun-dont/", vocab: "Describing Places" },
+            27: { focus: "Time Duration", grammar: "Depuis, Pendant, Pour", url: "https://www.lawlessfrench.com/grammar/depuis-vs-il-y-a/", vocab: "History & Biographies" },
+            28: { focus: "Demonstratives", grammar: "Demonstrative Pronouns (celui/celle)", url: "https://www.lawlessfrench.com/grammar/demonstrative-pronouns/", vocab: "Choices & Preferences" },
+            29: { focus: "Adverbs", grammar: "Adverb Formation & Placement", url: "https://www.lawlessfrench.com/grammar/adverbs/", vocab: "Manner & Frequency" },
+            30: { focus: "Bridge to B2", grammar: "Review of All Tenses", url: "https://www.lawlessfrench.com/grammar/verb-tenses/", vocab: "General Review" },
 
-        const outputTasks = [
-            {en: "Write 5 simple sentences.", fr: "Écrire 5 phrases simples."},
-            {en: "Record 2 min description.", fr: "S'enregistrer 2 min (Description)."},
-            {en: "Read text aloud.", fr: "Lire un texte à haute voix."},
-            {en: "Write a short email.", fr: "Écrire un email court."},
-            {en: "Describe an image (Oral).", fr: "Décrire une image (Oral)."},
-            {en: "Summarize an article (Written).", fr: "Résumer un article (Écrit)."},
-            {en: "Roleplay (Self or Tutor).", fr: "Jeu de rôle (Seul ou Tuteur)."},
-            {en: "Debate (For/Against).", fr: "Débat (Pour/Contre)."}
-        ];
+            // PHASE 3: B2 MASTERY (Weeks 31-43)
+            31: { focus: "Subjunctive 1", grammar: "Subjunctive (Necessity/Will)", url: "https://www.lawlessfrench.com/grammar/subjunctive/", vocab: "Opinions & Debates" },
+            32: { focus: "Subjunctive 2", grammar: "Subjunctive (Emotion/Doubt)", url: "https://www.lawlessfrench.com/grammar/subjunctivisor/", vocab: "Feelings & Emotions" },
+            33: { focus: "Subjunctive 3", grammar: "Irregular Subjunctives", url: "https://www.lawlessfrench.com/grammar/subjunctive-conjugations/", vocab: "Formal Letters" },
+            34: { focus: "Passive Voice", grammar: "La Voix Passive", url: "https://www.lawlessfrench.com/grammar/passive-voice/", vocab: "News & Events" },
+            35: { focus: "Gerund", grammar: "Participle Present & Gérondif", url: "https://www.lawlessfrench.com/grammar/present-participle/", vocab: "Simultaneous Actions" },
+            36: { focus: "Reported Speech", grammar: "Discours Indirect (Past)", url: "https://www.lawlessfrench.com/grammar/indirect-speech/", vocab: "Reporting News" },
+            37: { focus: "Connectors 1", grammar: "Cause & Consequence (car, donc)", url: "https://www.lawlessfrench.com/vocabulary/conjunctions/", vocab: "Argumentation" },
+            38: { focus: "Connectors 2", grammar: "Opposition & Concession", url: "https://www.lawlessfrench.com/vocabulary/conjunctions/", vocab: "Debate Structures" },
+            39: { focus: "Past Conditional", grammar: "Conditionnel Passé (Regrets)", url: "https://www.lawlessfrench.com/grammar/conditional-perfect/", vocab: "Hypothetical Past" },
+            40: { focus: "Plus-que-parfait", grammar: "Plus-que-parfait (Past Perfect)", url: "https://www.lawlessfrench.com/grammar/plus-que-parfait/", vocab: "Literature Basics" },
+            41: { focus: "Pronoun Order", grammar: "Double Pronouns Order", url: "https://www.lawlessfrench.com/grammar/double-pronoun-order/", vocab: "Complex Sentences" },
+            42: { focus: "Formal Register", grammar: "Soutenue vs Courant", url: "https://www.lawlessfrench.com/grammar/register/", vocab: "Professional French" },
+            43: { focus: "B2 Polish", grammar: "Prepositions after Verbs", url: "https://www.lawlessfrench.com/grammar/verbs-with-prepositions/", vocab: "Nuance & Style" },
+
+            // PHASE 4: SIMULATION (Weeks 44-52)
+            44: { focus: "TEF Strategy", grammar: "Error Analysis (Common Mistakes)", url: "https://www.lawlessfrench.com/grammar/common-mistakes/", vocab: "TEF Keywords" },
+            45: { focus: "Listening Focus", grammar: "Fast Speech Reduction", url: "https://www.lawlessfrench.com/pronunciation/informal-pronunciation/", vocab: "Radio Vocabulary" },
+            46: { focus: "Speaking Focus", grammar: "Argue & Convince Structures", url: "https://www.lawlessfrench.com/vocabulary/opinion/", vocab: "Persuasion" },
+            47: { focus: "Reading Focus", grammar: "Skimming Techniques", url: "https://www.lawlessfrench.com/reading/", vocab: "Press Vocabulary" },
+            48: { focus: "Writing Focus", grammar: "Formal Letter Structure", url: "https://www.lawlessfrench.com/vocabulary/correspondence/", vocab: "Formal Connectors" },
+            49: { focus: "Mock Week 1", grammar: "Review Weak Points", url: "", vocab: "Review" },
+            50: { focus: "Mock Week 2", grammar: "Review Weak Points", url: "", vocab: "Review" },
+            51: { focus: "Mock Week 3", grammar: "Review Weak Points", url: "", vocab: "Review" },
+            52: { focus: "Final Prep", grammar: "Relax & Light Review", url: "", vocab: "Success Mindset" }
+        };
 
         const speakingPrompts = {
             A: [
@@ -477,14 +481,20 @@
                 "Call a gym to ask about membership prices and opening hours.",
                 "Call a landlord to ask about an apartment for rent.",
                 "Call a friend to ask for a favor (borrowing a car).",
-                "Call a travel agency to ask about a trip to Paris."
+                "Call a travel agency to ask about a trip to Paris.",
+                "Call a library to ask about opening hours.",
+                "Call a shop to ask if they have a specific item in stock.",
+                "Call a hotel to change your reservation dates."
             ],
             B: [
                 "Convince a friend to stop smoking.",
                 "Convince a friend to move to Canada with you.",
                 "Convince your boss to let you work from home.",
                 "Convince a friend to adopt a dog.",
-                "Convince your partner to buy a new car."
+                "Convince your partner to buy a new car.",
+                "Convince a friend to go camping instead of a hotel.",
+                "Convince a friend to start learning French.",
+                "Convince a colleague to join the company sports team."
             ]
         };
 
@@ -499,11 +509,8 @@
 
         function calculateStreak() {
             if (completedDays.length === 0) return 0;
-            const sorted = [...completedDays].sort((a,b) => b-a); // Descending
+            const sorted = [...completedDays].sort((a,b) => b-a);
             let streak = 0;
-            
-            // Check if today or yesterday was completed
-            // Simplified logic: strict consecutive numbers from the highest completed day
             let current = sorted[0];
             streak = 1;
             for (let i = 1; i < sorted.length; i++) {
@@ -520,10 +527,9 @@
         function startTimer(slotId, btnId) {
             const btn = document.getElementById(btnId);
             const slot = document.getElementById(slotId);
-            const duration = 30 * 60; // 30 minutes in seconds
+            const duration = 30 * 60; 
             let timeLeft = duration;
             
-            // Visual active state
             slot.classList.add('timer-active');
             btn.disabled = true;
             
@@ -561,8 +567,6 @@
             window.speechSynthesis.cancel();
             const utterance = new SpeechSynthesisUtterance(text);
             const voices = window.speechSynthesis.getVoices();
-            
-            // Prioritize Canadian French (fr-CA), fallback to generic French
             const voice = voices.find(v => v.lang === 'fr-CA') || voices.find(v => v.lang.includes('fr'));
             
             if (voice) {
@@ -571,7 +575,6 @@
             } else {
                 document.getElementById('tts-status').innerText = "Quebec/French voice not found. Using default.";
             }
-
             window.speechSynthesis.speak(utterance);
         }
 
@@ -582,7 +585,6 @@
             const ee = parseInt(document.getElementById('calc-ee').value) || 0;
             
             function getLevel(score, type) {
-                // Simplified threshold logic for demo
                 if (score >= 298 && type === 'co') return 9;
                 if (score >= 280 && type === 'co') return 8;
                 if (score >= 249 && type === 'co') return 7;
@@ -604,26 +606,71 @@
             display.classList.remove('hidden');
         }
 
+        // --- DYNAMIC PLAN GENERATOR ---
         function getDayPlan(day) {
-            // ... (Same Generator Logic as V3.5, reusing arrays) ...
             let phase = 1;
             if (day > 90) phase = 2; if (day > 210) phase = 3; if (day > 300) phase = 4;
-            const gIndex = (day - 1) % grammarTopics.length;
-            const vIndex = Math.floor((day - 1) / 7) % vocabThemes.length;
-            const oIndex = (day - 1) % outputTasks.length;
             
-            const gObj = grammarTopics[gIndex];
-            const vObj = vocabThemes[vIndex];
-            const oObj = outputTasks[oIndex];
+            // Calculate current week (1-52)
+            let week = Math.ceil(day / 7);
+            if (week > 52) week = 52;
+            
+            const weekData = curriculum[week];
+            
+            // Daily rotation for output tasks
+            const outputTasks = [
+                "Write 5 simple sentences using today's grammar.",
+                "Record yourself describing your day (2 mins).",
+                "Read a short text aloud to practice pronunciation.",
+                "Write a short email/paragraph on the weekly theme.",
+                "Describe a picture related to the weekly theme.",
+                "Summarize a short news article (written or oral).",
+                "Rest Day or Free Output."
+            ];
+            const outputTask = outputTasks[(day - 1) % 7];
+
+            // Phase-specific Immersion
+            let activeTask = "";
+            let activeLink = "";
+            if (phase === 1) {
+                activeTask = "Slow French Listening (Podcast/YouTube)";
+                activeLink = "https://www.youtube.com/results?search_query=french+podcast+beginner";
+            } else if (phase === 2) {
+                activeTask = "Read News Headlines (La Presse) / Watch Short Series";
+                activeLink = "https://www.lapresse.ca/";
+            } else if (phase === 3) {
+                activeTask = "RFI Journal en français facile (Full Episode)";
+                activeLink = "https://francaisfacile.rfi.fr/fr/podcasts/journal-en-fran%C3%A7ais-facile/";
+            } else {
+                activeTask = "Full TEF Simulation (Timed Condition)";
+                activeLink = "https://www.youtube.com/results?search_query=tef+canada+blanc";
+            }
+
+            // Sunday Special
+            if (day % 7 === 0) {
+                return {
+                    phase, week,
+                    title: `Day ${day}: Review & Rest`,
+                    grammar: `Review Week ${week}: ${weekData.focus}`,
+                    grammarUrl: weekData.url,
+                    vocab: `Review: ${weekData.vocab}`,
+                    vocabQuery: `french vocabulary ${weekData.vocab}`,
+                    active: "Watch a French Movie or TV Show (Relaxed)",
+                    activeLink: "https://www.netflix.com/browse/genre/100378",
+                    output: "No formal output. Rest."
+                };
+            }
 
             return {
-                phase,
-                title: `${currentLang === 'en' ? 'Day' : 'Jour'} ${day}`,
-                grammar: gObj[currentLang], grammarUrl: gObj.url,
-                vocab: vObj[currentLang], vocabQuery: vObj.query,
-                active: currentLang === 'en' ? "Listening Practice" : "Écoute",
-                activeLink: "https://www.youtube.com/results?search_query=french+listening+practice",
-                output: oObj[currentLang]
+                phase, week,
+                title: `Day ${day}: ${weekData.focus}`,
+                grammar: weekData.grammar,
+                grammarUrl: weekData.url,
+                vocab: weekData.vocab,
+                vocabQuery: `french vocabulary ${weekData.vocab}`,
+                active: activeTask,
+                activeLink: activeLink,
+                output: outputTask
             };
         }
 
@@ -658,8 +705,8 @@
             
             document.getElementById('day-title').innerText = plan.title;
             document.getElementById('day-phase-badge').innerText = `Phase ${plan.phase}`;
+            document.getElementById('week-badge').innerText = `Week ${plan.week}`;
             
-            // Vocab Query
             const vUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(plan.vocabQuery)}`;
             
             renderSlot('slot-morning', 'slot_morning', 'cat_structure', plan.grammar, plan.grammarUrl, false);
@@ -667,7 +714,6 @@
             renderSlot('slot-pm', 'slot_pm', 'cat_input', plan.active, plan.activeLink, true);
             renderSlot('slot-eve', 'slot_eve', 'cat_output', plan.output, null, false);
 
-            // Completion State
             const isDone = completedDays.includes(day);
             const btn = document.getElementById('btn-complete');
             const ribbon = document.getElementById('status-ribbon');
@@ -737,7 +783,6 @@
             }
         }
         
-        // Data Export/Import
         function exportData() {
             const uri = 'data:application/json;charset=utf-8,' + encodeURIComponent(localStorage.getItem('tef_completed_days')||"[]");
             const a = document.createElement('a'); a.href = uri; a.download = 'tef_backup.json'; a.click();
@@ -754,7 +799,6 @@
 
         function scrollToSection(id) { document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
 
-        // Init
         document.addEventListener('DOMContentLoaded', () => {
             const ctxScore = document.getElementById('scoreChart').getContext('2d');
             new Chart(ctxScore, { type: 'bar', data: { labels: ['CO', 'CE', 'EO', 'EE'], datasets: [{ label:'Min Score', data: [249, 207, 310, 310], backgroundColor: '#d97706' }] }, options: { maintainAspectRatio: false, plugins: { legend: {display:false} } } });
