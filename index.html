@@ -312,7 +312,9 @@
                         <li><a href="https://www.lawlessfrench.com/" target="_blank" class="resource-link block">Lawless French</a></li>
                         <li><a href="https://bescherelle.com/conjugueur.php" target="_blank" class="resource-link block">Bescherelle</a></li>
                         <li><a href="https://www.wordreference.com/" target="_blank" class="resource-link block">WordReference</a></li>
+                        <li><a href="https://www.linguee.com/" target="_blank" class="resource-link block">Linguee</a></li>
                         <li><a href="https://www.deepl.com/" target="_blank" class="resource-link block">DeepL</a></li>
+                        <li><a href="https://ankiweb.net/" target="_blank" class="resource-link block">Anki (Flashcards)</a></li>
                     </ul>
                 </div>
                 <!-- Listening -->
@@ -321,6 +323,7 @@
                     <ul class="space-y-2 text-sm">
                         <li><a href="https://mauril.ca/en/" target="_blank" class="resource-link block">Mauril App</a></li>
                         <li><a href="https://ici.radio-canada.ca/ohdio" target="_blank" class="resource-link block">Radio-Canada Ohdio</a></li>
+                        <li><a href="https://ici.tou.tv/" target="_blank" class="resource-link block">ICI Tou.tv</a></li>
                         <li><a href="https://www.tv5monde.com/" target="_blank" class="resource-link block">TV5Monde</a></li>
                     </ul>
                 </div>
@@ -329,6 +332,7 @@
                     <h3 class="text-xl font-bold text-white mb-4 border-b border-stone-600 pb-2">📖 Reading</h3>
                     <ul class="space-y-2 text-sm">
                         <li><a href="https://www.lapresse.ca/" target="_blank" class="resource-link block">La Presse</a></li>
+                        <li><a href="https://www.ledevoir.com/" target="_blank" class="resource-link block">Le Devoir</a></li>
                         <li><a href="https://savoirs.rfi.fr/fr/apprendre-enseigner" target="_blank" class="resource-link block">RFI Savoirs</a></li>
                         <li><a href="https://www.thefrenchexperiment.com/stories" target="_blank" class="resource-link block">French Stories</a></li>
                     </ul>
@@ -340,6 +344,7 @@
                         <li><a href="https://www.youtube.com/@innerFrench" target="_blank" class="resource-link block">InnerFrench</a></li>
                         <li><a href="https://www.youtube.com/@Mapril" target="_blank" class="resource-link block">Mapril (TEF)</a></li>
                         <li><a href="https://www.youtube.com/@FrancaisAuthentique" target="_blank" class="resource-link block">Français Authentique</a></li>
+                        <li><a href="https://www.youtube.com/@FrenchSchoolTV" target="_blank" class="resource-link block">French School TV</a></li>
                     </ul>
                 </div>
             </div>
@@ -402,7 +407,7 @@
             }
         };
 
-        // --- CONTENT DATA (Shortened for brevity, full logic in generator) ---
+        // --- CONTENT DATA (Full 200% Content Restored) ---
         const grammarTopics = [
             {en: "Articles (le, la, un, une)", fr: "Articles", url: "https://www.lawlessfrench.com/grammar/articles/"},
             {en: "Verbs Être & Avoir", fr: "Verbe Être & Avoir", url: "https://www.lawlessfrench.com/grammar/etre-and-avoir/"},
@@ -410,19 +415,60 @@
             {en: "Negation (ne...pas)", fr: "Négation", url: "https://www.lawlessfrench.com/grammar/negation-introduction/"},
             {en: "Asking Questions", fr: "Interrogation", url: "https://www.lawlessfrench.com/grammar/questions/"},
             {en: "Adjective Agreement", fr: "Accord Adjectifs", url: "https://www.lawlessfrench.com/grammar/adjectives/"},
-            {en: "Prepositions (à, en)", fr: "Prépositions", url: "https://www.lawlessfrench.com/grammar/prepositions/"}
+            {en: "Prepositions (à, en)", fr: "Prépositions", url: "https://www.lawlessfrench.com/grammar/prepositions/"},
+            {en: "Possessive Adjectives", fr: "Adjectifs Possessifs", url: "https://www.lawlessfrench.com/grammar/possessive-adjectives/"},
+            {en: "-IR Verbs", fr: "Verbes en -IR", url: "https://www.lawlessfrench.com/grammar/ir-verbs/"},
+            {en: "-RE Verbs", fr: "Verbes en -RE", url: "https://www.lawlessfrench.com/grammar/re-verbs/"},
+            {en: "Near Future (Futur Proche)", fr: "Futur Proche", url: "https://www.lawlessfrench.com/grammar/near-future/"},
+            {en: "Past Tense (Passé Composé)", fr: "Passé Composé", url: "https://www.lawlessfrench.com/grammar/passe-compose/"},
+            {en: "Auxiliary Verbs (Avoir/Être)", fr: "Auxiliaires", url: "https://www.lawlessfrench.com/grammar/auxiliary-verbs/"},
+            {en: "Imperfect Tense (Imparfait)", fr: "Imparfait", url: "https://www.lawlessfrench.com/grammar/imparfait/"},
+            {en: "Passé Composé vs Imparfait", fr: "PC vs Imparfait", url: "https://www.lawlessfrench.com/grammar/passe-compose-vs-imparfait/"},
+            {en: "Simple Future (Futur Simple)", fr: "Futur Simple", url: "https://www.lawlessfrench.com/grammar/future/"},
+            {en: "Direct Object Pronouns", fr: "COD", url: "https://www.lawlessfrench.com/grammar/direct-objects/"},
+            {en: "Indirect Object Pronouns", fr: "COI", url: "https://www.lawlessfrench.com/grammar/indirect-objects/"},
+            {en: "Pronouns Y and EN", fr: "Pronoms Y/EN", url: "https://www.lawlessfrench.com/grammar/pronouns-y-en/"},
+            {en: "Comparatives", fr: "Comparatifs", url: "https://www.lawlessfrench.com/grammar/comparatives/"},
+            {en: "Conditional Present", fr: "Conditionnel", url: "https://www.lawlessfrench.com/grammar/conditional/"},
+            {en: "Si Clauses (Hypothesis)", fr: "Hypothèses (Si)", url: "https://www.lawlessfrench.com/grammar/si-clauses-first-conditional/"},
+            {en: "Subjunctive (Necessity)", fr: "Subjonctif (Il faut)", url: "https://www.lawlessfrench.com/grammar/subjunctive/"},
+            {en: "Subjunctive (Emotion)", fr: "Subjonctif (Émotion)", url: "https://www.lawlessfrench.com/grammar/subjunctivisor/"},
+            {en: "Relative Pronouns (Qui/Que)", fr: "Pronoms Relatifs", url: "https://www.lawlessfrench.com/grammar/relative-pronouns-que-qui/"},
+            {en: "Relative Pronoun 'Dont'", fr: "Pronom 'Dont'", url: "https://www.lawlessfrench.com/grammar/relative-pronoun-dont/"},
+            {en: "Passive Voice", fr: "Voix Passive", url: "https://www.lawlessfrench.com/grammar/passive-voice/"},
+            {en: "Gerund (En + Participe)", fr: "Gérondif", url: "https://www.lawlessfrench.com/grammar/present-participle/"},
+            {en: "Indirect Speech", fr: "Discours Indirect", url: "https://www.lawlessfrench.com/grammar/indirect-speech/"},
+            {en: "Logical Connectors", fr: "Connecteurs Logiques", url: "https://www.lawlessfrench.com/vocabulary/conjunctions/"}
         ];
+
         const vocabThemes = [
             {en: "Greetings & Numbers", fr: "Salutations & Nombres", query: "french greetings numbers"},
             {en: "Family & Friends", fr: "La Famille & Amis", query: "french vocabulary family"},
             {en: "Home & Furniture", fr: "La Maison", query: "french vocabulary home furniture"},
-            {en: "City & Directions", fr: "La Ville", query: "french vocabulary city directions"}
+            {en: "City & Directions", fr: "La Ville", query: "french vocabulary city directions"},
+            {en: "Food & Cooking", fr: "Nourriture & Cuisine", query: "french vocabulary food cooking"},
+            {en: "Body & Health", fr: "Corps & Santé", query: "french vocabulary body health"},
+            {en: "Clothing & Fashion", fr: "Vêtements & Mode", query: "french vocabulary clothing"},
+            {en: "Work & Professions", fr: "Travail & Professions", query: "french vocabulary professions work"},
+            {en: "Education & School", fr: "Éducation & École", query: "french vocabulary school education"},
+            {en: "Hobbies & Sports", fr: "Loisirs & Sports", query: "french vocabulary hobbies sports"},
+            {en: "Travel & Transport", fr: "Voyage & Transport", query: "french vocabulary travel transport"},
+            {en: "Weather & Seasons", fr: "Météo & Saisons", query: "french vocabulary weather"},
+            {en: "Technology & Media", fr: "Technologie & Médias", query: "french vocabulary technology"},
+            {en: "Nature & Environment", fr: "Nature & Environnement", query: "french vocabulary environment"},
+            {en: "Politics & Society", fr: "Politique & Société", query: "french vocabulary politics society"},
+            {en: "Feelings & Emotions", fr: "Sentiments & Émotions", query: "french vocabulary feelings emotions"}
         ];
+
         const outputTasks = [
             {en: "Write 5 simple sentences.", fr: "Écrire 5 phrases simples."},
             {en: "Record 2 min description.", fr: "S'enregistrer 2 min (Description)."},
             {en: "Read text aloud.", fr: "Lire un texte à haute voix."},
-            {en: "Write a short email.", fr: "Écrire un email court."}
+            {en: "Write a short email.", fr: "Écrire un email court."},
+            {en: "Describe an image (Oral).", fr: "Décrire une image (Oral)."},
+            {en: "Summarize an article (Written).", fr: "Résumer un article (Écrit)."},
+            {en: "Roleplay (Self or Tutor).", fr: "Jeu de rôle (Seul ou Tuteur)."},
+            {en: "Debate (For/Against).", fr: "Débat (Pour/Contre)."}
         ];
 
         const speakingPrompts = {
